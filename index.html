@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>CarbCycle Pro</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+:root {
+  --bg: #08080f;
+  --surface: rgba(255,255,255,0.04);
+  --surface2: rgba(255,255,255,0.07);
+  --surface3: rgba(255,255,255,0.10);
+  --glass: rgba(255,255,255,0.06);
+  --glass-border: rgba(255,255,255,0.08);
+  --accent: #ff2d55;
+  --accent-glow: rgba(255,45,85,0.25);
+  --green: #30d158;
+  --green-dim: rgba(48,209,88,0.12);
+  --orange: #ff9f0a;
+  --orange-dim: rgba(255,159,10,0.12);
+  --blue: #0a84ff;
+  --cyan: #64d2ff;
+  --purple: #bf5af2;
+  --text: #f5f5f7;
+  --text2: rgba(255,255,255,0.45);
+  --text3: rgba(255,255,255,0.25);
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior: smooth; }
+body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; min-height:100dvh; overflow-x:hidden; line-height:1.4; }
+
+/* === AMBIENT GLOW === */
+.ambience { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+.ambience .orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.5; }
+.orb1 { width:300px; height:300px; background:radial-gradient(circle,rgba(255,45,85,0.15),transparent 70%); top:-80px; right:-60px; animation:float1 25s ease-in-out infinite; }
+.orb2 { width:250px; height:250px; background:radial-gradient(circle,rgba(10,132,255,0.10),transparent 70%); bottom:20%; left:-80px; animation:float2 30s ease-in-out infinite; }
+.orb3 { width:200px; height:200px; background:radial-gradient(circle,rgba(48,209,88,0.08),transparent 70%); top:40%; right:-40px; animation:float3 20s ease-in-out infinite; }
+@keyframes float1 { 0%,100%{transform:translate(0,0)} 33%{transform:translate(-30px,40px)} 66%{transform:translate(20px,-20px)} }
+@keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(40px,-30px)} }
+@keyframes float3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-20px,30px)} }
+
+.app { max-width:430px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:1; }
+
+/* === GLASS CARD === */
+.glass { background:var(--glass); backdrop-filter:blur(40px); -webkit-backdrop-filter:blur(40px); border:1px solid var(--glass-border); border-radius:24px; }
+
+/* === HEADER === */
+.header { padding:56px 0 8px; }
+.brand { display:flex; align-items:center; gap:8px; margin-bottom:16px; }
+.brand-dot { width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 12px var(--accent-glow); }
+.brand-name { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--text2); }
+.header h1 { font-size:34px; font-weight:800; letter-spacing:-0.5px; line-height:1.1; }
+.header h1 span { background:linear-gradient(135deg,#fff 30%,var(--text2) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.tagline { font-size:15px; color:var(--text2); margin-top:8px; font-weight:400; }
+
+/* === PROGRESS RING === */
+.ring-section { display:flex; justify-content:center; padding:32px 0 24px; }
+.ring-outer { position:relative; width:200px; height:200px; }
+.ring-outer svg { width:100%; height:100%; transform:rotate(-90deg); }
+.ring-bg { fill:none; stroke:var(--surface2); stroke-width:10; }
+.ring-fg { fill:none; stroke-width:10; stroke-linecap:round; transition:stroke-dashoffset 1.5s cubic-bezier(0.4,0,0.2,1); }
+.ring-info { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.ring-val { font-size:44px; font-weight:900; letter-spacing:-2px; }
+.ring-unit { font-size:13px; color:var(--text2); font-weight:500; margin-top:-2px; }
+.ring-pct { font-size:12px; font-weight:700; color:var(--accent); margin-top:6px; padding:4px 12px; background:rgba(255,45,85,0.1); border-radius:20px; }
+
+/* === STATS === */
+.stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:24px; }
+.s-card { background:var(--surface); border:1px solid var(--glass-border); border-radius:20px; padding:18px 12px; text-align:center; transition:transform 0.2s cubic-bezier(0.4,0,0.2,1); }
+.s-card:active { transform:scale(0.96); }
+.s-icon { font-size:24px; margin-bottom:8px; }
+.s-val { font-size:28px; font-weight:800; letter-spacing:-1px; }
+.s-lbl { font-size:10px; color:var(--text2); margin-top:4px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; }
+
+/* === PHASE BANNER === */
+.phase { border-radius:20px; padding:20px; margin-bottom:24px; display:flex; align-items:center; justify-content:space-between; }
+.phase-low { background:linear-gradient(135deg,rgba(48,209,88,0.08),rgba(48,209,88,0.02)); border:1px solid rgba(48,209,88,0.15); }
+.phase-high { background:linear-gradient(135deg,rgba(255,159,10,0.08),rgba(255,159,10,0.02)); border:1px solid rgba(255,159,10,0.15); }
+.phase-left { display:flex; align-items:center; gap:14px; }
+.phase-icon { width:48px; height:48px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:22px; }
+.phase-low .phase-icon { background:var(--green-dim); }
+.phase-high .phase-icon { background:var(--orange-dim); }
+.phase-title { font-size:17px; font-weight:700; }
+.phase-sub { font-size:12px; color:var(--text2); margin-top:2px; }
+.phase-cal { font-size:24px; font-weight:800; letter-spacing:-1px; }
+.phase-low .phase-cal { color:var(--green); }
+.phase-high .phase-cal { color:var(--orange); }
+.phase-kcal { font-size:11px; color:var(--text2); }
+
+/* === MACROS === */
+.macros { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:24px; }
+.m-card { background:var(--surface); border-radius:20px; padding:18px 14px; position:relative; overflow:hidden; }
+.m-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; }
+.m-p::after { background:linear-gradient(90deg,var(--accent),#ff6b8a); }
+.m-f::after { background:linear-gradient(90deg,var(--orange),#ffcc02); }
+.m-c::after { background:linear-gradient(90deg,var(--cyan),var(--blue)); }
+.m-val { font-size:26px; font-weight:800; letter-spacing:-1px; }
+.m-p .m-val { color:var(--accent); }
+.m-f .m-val { color:var(--orange); }
+.m-c .m-val { color:var(--cyan); }
+.m-lbl { font-size:10px; color:var(--text2); margin-top:4px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; }
+.m-bar { height:4px; background:var(--surface2); border-radius:2px; margin-top:10px; overflow:hidden; }
+.m-bar-fill { height:100%; border-radius:2px; transition:width 1s cubic-bezier(0.4,0,0.2,1); }
+.m-p .m-bar-fill { background:linear-gradient(90deg,var(--accent),#ff6b8a); }
+.m-f .m-bar-fill { background:linear-gradient(90deg,var(--orange),#ffcc02); }
+.m-c .m-bar-fill { background:linear-gradient(90deg,var(--cyan),var(--blue)); }
+
+/* === CHART === */
+.chart-card { border-radius:24px; padding:24px; margin-bottom:24px; background:var(--surface); border:1px solid var(--glass-border); }
+.chart-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.chart-head h3 { font-size:17px; font-weight:700; }
+.chart-tabs { display:flex; gap:4px; background:var(--surface2); border-radius:10px; padding:3px; }
+.ct { padding:6px 12px; border-radius:8px; font-size:11px; font-weight:600; color:var(--text2); cursor:pointer; transition:all 0.2s; }
+.ct.active { background:var(--surface3); color:var(--text); }
+.chart-area { width:100%; height:160px; }
+.chart-empty { height:140px; display:flex; align-items:center; justify-content:center; color:var(--text3); font-size:14px; }
+
+/* === INPUT FORM === */
+.form-card { border-radius:24px; padding:24px; margin-bottom:24px; background:var(--surface); border:1px solid var(--glass-border); }
+.form-card h3 { font-size:17px; font-weight:700; margin-bottom:20px; }
+.field { margin-bottom:16px; }
+.field label { display:block; font-size:11px; color:var(--text2); margin-bottom:8px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; }
+.field input,.field textarea { width:100%; padding:16px 18px; border-radius:16px; border:1px solid var(--glass-border); background:var(--bg); color:var(--text); font-size:16px; font-family:'Inter',sans-serif; outline:none; transition:all 0.3s cubic-bezier(0.4,0,0.2,1); }
+.field input::placeholder,.field textarea::placeholder { color:var(--text3); }
+.field input:focus,.field textarea:focus { border-color:rgba(255,45,85,0.4); box-shadow:0 0 0 4px rgba(255,45,85,0.08); }
+.field textarea { height:80px; resize:none; }
+
+/* Toggle */
+.tog-wrap { display:flex; gap:0; background:var(--bg); border-radius:16px; padding:4px; margin-bottom:16px; border:1px solid var(--glass-border); }
+.tog { flex:1; padding:14px; text-align:center; border-radius:13px; font-size:14px; font-weight:600; cursor:pointer; transition:all 0.3s cubic-bezier(0.4,0,0.2,1); color:var(--text3); }
+.tog.sel-low { background:var(--green-dim); color:var(--green); box-shadow:0 0 20px rgba(48,209,88,0.1); }
+.tog.sel-high { background:var(--orange-dim); color:var(--orange); box-shadow:0 0 20px rgba(255,159,10,0.1); }
+
+/* Button */
+.btn { width:100%; padding:18px; border:none; border-radius:16px; font-size:16px; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.2s cubic-bezier(0.4,0,0.2,1); letter-spacing:0.5px; }
+.btn:active { transform:scale(0.97); }
+.btn-primary { background:linear-gradient(135deg,var(--accent) 0%,#ff6b8a 100%); color:#fff; box-shadow:0 8px 32px var(--accent-glow); }
+
+/* === HISTORY === */
+.hist-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+.hist-head h3 { font-size:17px; font-weight:700; }
+.hist-head .more { font-size:13px; color:var(--accent); font-weight:600; cursor:pointer; }
+.h-item { background:var(--surface); border:1px solid var(--glass-border); border-radius:20px; padding:18px 20px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; transition:transform 0.2s cubic-bezier(0.4,0,0.2,1); position:relative; }
+.h-item:active { transform:scale(0.98); }
+.h-l .h-date { font-size:15px; font-weight:700; }
+.h-l .h-meta { font-size:12px; color:var(--text2); margin-top:4px; display:flex; align-items:center; gap:8px; }
+.h-dot { width:6px; height:6px; border-radius:50%; }
+.h-dot-low { background:var(--green); box-shadow:0 0 6px rgba(48,209,88,0.4); }
+.h-dot-high { background:var(--orange); box-shadow:0 0 6px rgba(255,159,10,0.4); }
+.h-r { text-align:right; }
+.h-w { font-size:28px; font-weight:800; letter-spacing:-1px; }
+.h-diff { font-size:12px; font-weight:700; margin-top:2px; }
+.h-down { color:var(--green); }
+.h-up { color:#ff453a; }
+.h-same { color:var(--text3); }
+.h-del { position:absolute; top:10px; right:12px; width:22px; height:22px; border-radius:11px; background:rgba(255,69,58,0.1); color:#ff453a; border:none; font-size:12px; cursor:pointer; display:none; align-items:center; justify-content:center; line-height:1; }
+.h-item:hover .h-del { display:flex; }
+
+/* === PLAN PAGE === */
+.cycle-preview { display:flex; gap:6px; margin:20px 0; }
+.cy-d { flex:1; border-radius:14px; padding:12px 4px; text-align:center; font-size:11px; font-weight:700; transition:transform 0.2s; }
+.cy-d:active { transform:scale(0.95); }
+.cy-low { background:var(--green-dim); color:var(--green); }
+.cy-high { background:var(--orange-dim); color:var(--orange); }
+.cy-today { box-shadow:0 0 0 2px var(--accent); position:relative; }
+.cy-label { font-size:9px; color:var(--text3); margin-bottom:4px; display:block; }
+.plan-glass { background:var(--surface); border:1px solid var(--glass-border); border-radius:24px; padding:24px; margin-bottom:16px; }
+.plan-glass h3 { font-size:17px; font-weight:700; margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+.p-dot { width:10px; height:10px; border-radius:50%; }
+.p-row { display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--glass-border); font-size:14px; }
+.p-row:last-child { border:none; }
+.p-v { font-weight:700; }
+.food-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:14px; }
+.food-chip { background:var(--bg); border-radius:12px; padding:12px 14px; font-size:13px; font-weight:500; border:1px solid var(--glass-border); }
+.food-warn { color:#ff453a; font-size:13px; margin-top:14px; font-weight:600; }
+
+/* === NAV === */
+.nav { position:fixed; bottom:0; left:0; right:0; z-index:100; }
+.nav-inner { max-width:430px; margin:0 auto; background:rgba(8,8,15,0.85); backdrop-filter:blur(30px); -webkit-backdrop-filter:blur(30px); border-top:1px solid var(--glass-border); display:flex; padding:8px 0 calc(8px + env(safe-area-inset-bottom)); }
+.n-item { flex:1; text-align:center; cursor:pointer; padding:8px 0; }
+.n-ico { font-size:24px; opacity:0.3; transition:all 0.2s; }
+.n-lbl { font-size:10px; color:var(--text3); font-weight:600; letter-spacing:0.5px; margin-top:2px; transition:color 0.2s; }
+.n-item.on .n-ico { opacity:1; }
+.n-item.on .n-lbl { color:var(--accent); }
+
+/* Animations */
+@keyframes rise { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+.an { animation:rise 0.6s cubic-bezier(0.16,1,0.3,1) forwards; }
+.d0 { animation-delay:0s; opacity:0; }
+.d1 { animation-delay:0.06s; opacity:0; }
+.d2 { animation-delay:0.12s; opacity:0; }
+.d3 { animation-delay:0.18s; opacity:0; }
+.d4 { animation-delay:0.24s; opacity:0; }
+.d5 { animation-delay:0.30s; opacity:0; }
+.d6 { animation-delay:0.36s; opacity:0; }
+
+/* Toast */
+.toast-wrap { position:fixed; top:0; left:0; right:0; z-index:999; display:flex; justify-content:center; padding-top:60px; pointer-events:none; }
+.toast { background:rgba(30,30,40,0.9); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1px solid var(--glass-border); color:#fff; padding:14px 28px; border-radius:16px; font-size:15px; font-weight:600; opacity:0; transform:translateY(-20px) scale(0.9); transition:all 0.4s cubic-bezier(0.16,1,0.3,1); }
+.toast.show { opacity:1; transform:translateY(0) scale(1); }
+
+/* Empty */
+.empty-state { text-align:center; padding:40px 20px; }
+.empty-state .em-icon { font-size:48px; margin-bottom:16px; opacity:0.3; }
+.empty-state .em-text { font-size:14px; color:var(--text3); line-height:1.6; }
+</style>
+</head>
+<body>
+
+<div class="ambience">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+</div>
+
+<div class="app" id="app"></div>
+
+<div class="nav">
+  <div class="nav-inner" id="nav"></div>
+</div>
+
+<div class="toast-wrap"><div class="toast" id="toast"></div></div>
+
+<script>
+const K='xi_cc_v3';
+let S={tab:'home',records:[],sw:220,tc:null};
+
+const load=()=>{try{const d=JSON.parse(localStorage.getItem(K));if(d){S.records=d.r||[];S.sw=d.sw||220}}catch(e){}};
+const save=()=>localStorage.setItem(K,JSON.stringify({r:S.records,sw:S.sw}));
+const td=()=>new Date().toISOString().slice(0,10);
+const fm=(d)=>{const[,m,day]=d.split('-');return`${+m}月${+day}日`};
+const wd=(d)=>['日','一','二','三','四','五','六'][new Date(d).getDay()];
+const gr=(d)=>S.records.find(r=>r.d===d);
+
+function ci(){
+  if(!S.records.length)return 0;
+  const f=S.records.sort((a,b)=>a.d.localeCompare(b.d))[0].d;
+  return Math.floor((new Date(td())-new Date(f))/864e5);
+}
+const ct=(i)=>i%4<3?'low':'high';
+const tt=()=>ct(ci());
+function lw(){const w=S.records.filter(r=>r.w).sort((a,b)=>b.d.localeCompare(a.d));return w.length?w[0].w:S.sw}
+function sk(){let s=0,d=new Date();for(let i=0;i<90;i++){const x=new Date(d);x.setDate(x.getDate()-i);if(S.records.find(r=>r.d===x.toISOString().slice(0,10)))s++;else break}return s}
+
+function ringHTML(cur){
+  const prog=Math.min(1,Math.max(0,(S.sw-cur)/(S.sw-160)));
+  const r=85,c=2*Math.PI*r,off=c*(1-prog);
+  const pct=Math.round(prog*100);
+  return`<div class="ring-section an d1">
+    <div class="ring-outer">
+      <svg viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="${r}" class="ring-bg" stroke-width="10"/>
+        <circle cx="100" cy="100" r="${r}" class="ring-fg" stroke="url(#rg)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${off}"/>
+        <defs><linearGradient id="rg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="${pct>50?'var(--green)':'var(--accent)'}"/>
+          <stop offset="100%" stop-color="${pct>50?'var(--cyan)':'#ff6b8a'}"/>
+        </linearGradient></defs>
+      </svg>
+      <div class="ring-info">
+        <div class="ring-val">${cur}</div>
+        <div class="ring-unit">斤</div>
+        <div class="ring-pct">${pct}% 完成</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function chartHTML(){
+  const sorted=S.records.filter(r=>r.w).sort((a,b)=>a.d.localeCompare(b.d)).slice(-14);
+  if(sorted.length<2)return`<div class="empty-state"><div class="em-icon">📊</div><div class="em-text">记录两天以上体重<br>即可查看趋势图</div></div>`;
+  const ws=sorted.map(r=>r.w),mn=Math.min(...ws)-2,mx=Math.max(...ws)+2,rg=mx-mn||1;
+  const W=100,H=100;
+  let pts=sorted.map((r,i)=>`${(i/(sorted.length-1))*W},${H-((r.w-mn)/rg)*H}`).join(' ');
+  let dots=sorted.map((r,i)=>{
+    const x=(i/(sorted.length-1))*W, y=H-((r.w-mn)/rg)*H;
+    const isLast=i===sorted.length-1;
+    return`<circle cx="${x}" cy="${y}" r="${isLast?4:2.5}" fill="${isLast?'var(--accent)':'rgba(255,255,255,0.6)'}" ${isLast?'stroke="var(--accent)" stroke-width="2" stroke-opacity="0.3"':''}/>`;
+  }).join('');
+  const area=`0,${H} ${pts} ${W},${H}`;
+  return`<svg viewBox="-8 -12 ${W+16} ${H+28}" style="width:100%;height:160px">
+    <defs>
+      <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(255,45,85,0.2)"/><stop offset="100%" stop-color="rgba(255,45,85,0)"/></linearGradient>
+      <linearGradient id="lg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="var(--accent)"/><stop offset="100%" stop-color="#ff6b8a"/></linearGradient>
+    </defs>
+    <line x1="0" y1="${H}" x2="${W}" y2="${H}" stroke="var(--surface2)" stroke-width="0.5"/>
+    <polygon points="${area}" fill="url(#ag)"/>
+    <polyline points="${pts}" fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    ${dots}
+    <text x="0" y="${H+16}" font-size="8" fill="var(--text3)" font-family="Inter" font-weight="500">${fm(sorted[0].d)}</text>
+    <text x="${W}" y="${H+16}" font-size="8" fill="var(--text3)" font-family="Inter" font-weight="500" text-anchor="end">${fm(sorted[sorted.length-1].d)}</text>
+    <text x="-4" y="6" font-size="7" fill="var(--text3)" font-family="Inter" text-anchor="end">${mx.toFixed(0)}</text>
+    <text x="-4" y="${H+4}" font-size="7" fill="var(--text3)" font-family="Inter" text-anchor="end">${mn.toFixed(0)}</text>
+  </svg>`;
+}
+
+function homeHTML(){
+  const rec=gr(td()),cType=S.tc||rec?.ct||tt(),cw=lw(),lost=S.sw-cw;
+  const tgt=cType==='low'?{cal:2200,p:220,f:90,c:80}:{cal:2800,p:220,f:70,c:300};
+  const sorted=[...S.records].filter(r=>r.w).sort((a,b)=>b.d.localeCompare(a.d));
+
+  let hist='';
+  if(!sorted.length){
+    hist=`<div class="empty-state"><div class="em-icon">🏋️</div><div class="em-text">还没有记录<br>从今天开始你的碳循环之旅</div></div>`;
+  } else {
+    sorted.slice(0,8).forEach((r,i)=>{
+      const prev=sorted[i+1];
+      let df='';
+      if(prev){const d=r.w-prev.w;if(d<0)df=`<span class="h-down">↓${Math.abs(d).toFixed(1)}</span>`;else if(d>0)df=`<span class="h-up">↑${d.toFixed(1)}</span>`;else df=`<span class="h-same">→ 持平</span>`}
+      hist+=`<div class="h-item"><div class="h-l"><div class="h-date">${fm(r.d)} 周${wd(r.d)}</div><div class="h-meta"><span class="h-dot ${r.ct==='high'?'h-dot-high':'h-dot-low'}"></span>${r.ct==='high'?'高碳':'低碳'}${r.t?' · '+r.t:''}</div></div><div class="h-r"><div class="h-w">${r.w}</div><div class="h-diff">${df}</div></div><button class="h-del" onclick="del('${r.d}')">&times;</button></div>`;
+    });
+  }
+
+  return`
+    <div class="header an d0">
+      <div class="brand"><div class="brand-dot"></div><div class="brand-name">CarbCycle Pro</div></div>
+      <h1><span>碳循环减脂</span></h1>
+      <div class="tagline">183cm · 目标160斤 · 3低1高循环</div>
+    </div>
+    ${ringHTML(cw)}
+    <div class="stats an d2">
+      <div class="s-card"><div class="s-icon">🔥</div><div class="s-val" style="color:var(--accent)">${lost>0?lost:0}</div><div class="s-lbl">已减重</div></div>
+      <div class="s-card"><div class="s-icon">⚡</div><div class="s-val" style="color:var(--orange)">${sk()}</div><div class="s-lbl">连续打卡</div></div>
+      <div class="s-card"><div class="s-icon">🎯</div><div class="s-val" style="color:var(--cyan)">${Math.max(0,cw-160)}</div><div class="s-lbl">距目标</div></div>
+    </div>
+    <div class="phase ${cType==='low'?'phase-low':'phase-high'} an d3">
+      <div class="phase-left">
+        <div class="phase-icon">${cType==='low'?'🥬':'🍚'}</div>
+        <div><div class="phase-title">${cType==='low'?'低碳日':'高碳日'}</div><div class="phase-sub">${fm(td())} 周${wd(td())}</div></div>
+      </div>
+      <div style="text-align:right"><div class="phase-cal">${tgt.cal}</div><div class="phase-kcal">kcal</div></div>
+    </div>
+    <div class="macros an d3">
+      <div class="m-card m-p"><div class="m-val">${tgt.p}g</div><div class="m-lbl">蛋白质</div><div class="m-bar"><div class="m-bar-fill" style="width:100%"></div></div></div>
+      <div class="m-card m-f"><div class="m-val">${tgt.f}g</div><div class="m-lbl">脂肪</div><div class="m-bar"><div class="m-bar-fill" style="width:100%"></div></div></div>
+      <div class="m-card m-c"><div class="m-val">${tgt.c}g</div><div class="m-lbl">碳水</div><div class="m-bar"><div class="m-bar-fill" style="width:${cType==='low'?'27':'100'}%"></div></div></div>
+    </div>
+    <div class="chart-card an d4">
+      <div class="chart-head"><h3>体重趋势</h3></div>
+      <div class="chart-area">${chartHTML()}</div>
+    </div>
+    <div class="form-card an d5">
+      <h3>✏️ 今日打卡</h3>
+      <div class="field"><label>体重 (斤)</label><input type="number" id="iw" placeholder="上秤称一下" value="${rec?.w||''}"></div>
+      <div class="tog-wrap">
+        <div class="tog ${cType==='low'?'sel-low':''}" onclick="tc('low')">🥬 低碳</div>
+        <div class="tog ${cType==='high'?'sel-high':''}" onclick="tc('high')">🍚 高碳</div>
+      </div>
+      <div class="field"><label>训练内容</label><input type="text" id="it" placeholder="例：爬坡45分钟" value="${rec?.t||''}"></div>
+      <div class="field"><label>饮食备注</label><textarea id="in" placeholder="今天吃了什么、喝了什么...">${rec?.n||''}</textarea></div>
+      <button class="btn btn-primary" onclick="sv()">保存记录</button>
+    </div>
+    <div class="an d6">
+      <div class="hist-head"><h3>历史记录</h3></div>
+      ${hist}
+    </div>`;
+}
+
+function planHTML(){
+  const di=ci();
+  let cyc='';
+  const labels=['今天','明天','后天','+3','+4','+5','+6','+7'];
+  for(let i=0;i<8;i++){
+    const t=ct(di+i);
+    cyc+=`<div class="cy-d ${t==='low'?'cy-low':'cy-high'} ${i===0?'cy-today':''}"><span class="cy-label">${labels[i]}</span>${t==='low'?'低':'高'}</div>`;
+  }
+  return`
+    <div class="header an d0">
+      <div class="brand"><div class="brand-dot"></div><div class="brand-name">CarbCycle Pro</div></div>
+      <h1><span>减脂计划</span></h1>
+      <div class="tagline">3天低碳 + 1天高碳循环</div>
+    </div>
+    <div class="plan-glass an d1"><h3>🔄 周期预览</h3><div class="cycle-preview">${cyc}</div></div>
+    <div class="plan-glass an d2">
+      <h3><span class="p-dot" style="background:var(--green);box-shadow:0 0 8px rgba(48,209,88,0.4)"></span>低碳日 · 2,200 kcal</h3>
+      <div class="p-row"><span>蛋白质</span><span class="p-v" style="color:var(--accent)">220g</span></div>
+      <div class="p-row"><span>脂肪</span><span class="p-v" style="color:var(--orange)">90g</span></div>
+      <div class="p-row"><span>碳水</span><span class="p-v" style="color:var(--cyan)">80g</span></div>
+      <div class="food-grid">
+        <div class="food-chip">🍗 鸡胸肉</div><div class="food-chip">🥩 牛肉</div>
+        <div class="food-chip">🐟 鱼虾</div><div class="food-chip">🥚 鸡蛋</div>
+        <div class="food-chip">🥦 西兰花</div><div class="food-chip">🥬 菠菜生菜</div>
+        <div class="food-chip">🥜 坚果少量</div><div class="food-chip">🥑 牛油果少量</div>
+      </div>
+      <div class="food-warn">❌ 不吃米饭、面条、红薯、面包</div>
+    </div>
+    <div class="plan-glass an d3">
+      <h3><span class="p-dot" style="background:var(--orange);box-shadow:0 0 8px rgba(255,159,10,0.4)"></span>高碳日 · 2,800 kcal</h3>
+      <div class="p-row"><span>蛋白质</span><span class="p-v" style="color:var(--accent)">220g</span></div>
+      <div class="p-row"><span>脂肪</span><span class="p-v" style="color:var(--orange)">70g</span></div>
+      <div class="p-row"><span>碳水</span><span class="p-v" style="color:var(--cyan)">300g</span></div>
+      <div class="food-grid">
+        <div class="food-chip">🍚 米饭</div><div class="food-chip">🍠 红薯</div>
+        <div class="food-chip">🍜 面条</div><div class="food-chip">🍞 全麦面包</div>
+        <div class="food-chip">🍗 正常吃肉</div><div class="food-chip">🥗 蔬菜沙拉</div>
+        <div class="food-chip">🍎 水果</div><div class="food-chip">🥤 蛋白粉</div>
+      </div>
+      <div class="food-warn">❌ 避免高油高糖垃圾食品</div>
+    </div>
+    <div class="plan-glass an d4">
+      <h3>📊 个人数据</h3>
+      <div class="p-row"><span>身高</span><span class="p-v">183 cm</span></div>
+      <div class="p-row"><span>起始体重</span><span class="p-v">220 斤</span></div>
+      <div class="p-row"><span>目标体重</span><span class="p-v" style="color:var(--green)">160 斤</span></div>
+      <div class="p-row"><span>需减重</span><span class="p-v" style="color:var(--accent)">60 斤</span></div>
+      <div class="p-row"><span>基础代谢</span><span class="p-v">~2,120 kcal</span></div>
+      <div class="p-row"><span>日常消耗</span><span class="p-v">~3,200 kcal</span></div>
+      <div class="p-row"><span>蛋白质需求</span><span class="p-v">2g/kg = 220g</span></div>
+      <div class="p-row"><span>每日运动</span><span class="p-v">爬坡有氧</span></div>
+    </div>`;
+}
+
+function tc(t){S.tc=t;render()}
+function sv(){
+  const w=document.getElementById('iw').value;
+  const t=document.getElementById('it').value;
+  const n=document.getElementById('in').value;
+  const c=S.tc||tt();
+  const rec={d:td(),w:w?parseFloat(w):null,ct:c,t,n};
+  const idx=S.records.findIndex(r=>r.d===td());
+  if(idx>=0)S.records[idx]=rec;else S.records.push(rec);
+  save();S.tc=null;render();toast('✅ 打卡成功');
+}
+function del(d){S.records=S.records.filter(r=>r.d!==d);save();render();toast('已删除')}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+
+function render(){
+  document.getElementById('app').innerHTML=S.tab==='home'?homeHTML():planHTML();
+  document.getElementById('nav').innerHTML=`
+    <div class="n-item ${S.tab==='home'?'on':''}" onclick="S.tab='home';render()"><div class="n-ico">⭐</div><div class="n-lbl">打卡</div></div>
+    <div class="n-item ${S.tab==='plan'?'on':''}" onclick="S.tab='plan';render()"><div class="n-ico">📋</div><div class="n-lbl">计划</div></div>`;
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+load();render();
+</script>
+</body>
+</html>
