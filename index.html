@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>CarbCycle Pro</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 :root {
   --bg: #06060c;
   --surface: rgba(255,255,255,0.035);
@@ -30,7 +30,7 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html { scroll-behavior:smooth; }
-body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; min-height:100dvh; overflow-x:hidden; line-height:1.4; }
+body { font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei','Helvetica Neue',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; min-height:100dvh; overflow-x:hidden; line-height:1.4; }
 
 /* === AMBIENT === */
 .ambience { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
@@ -126,7 +126,7 @@ body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg); color
 .form-card h3 { font-size:16px; font-weight:700; margin-bottom:18px; }
 .field { margin-bottom:14px; }
 .field label { display:block; font-size:10px; color:var(--text2); margin-bottom:6px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; }
-.field input,.field textarea { width:100%; padding:14px 16px; border-radius:14px; border:1px solid var(--glass-border); background:var(--bg); color:var(--text); font-size:15px; font-family:'Inter',sans-serif; outline:none; transition:all 0.3s; }
+.field input,.field textarea { width:100%; padding:14px 16px; border-radius:14px; border:1px solid var(--glass-border); background:var(--bg); color:var(--text); font-size:15px; font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif; outline:none; transition:all 0.3s; }
 .field input::placeholder,.field textarea::placeholder { color:var(--text3); }
 .field input:focus,.field textarea:focus { border-color:rgba(255,45,85,0.4); box-shadow:0 0 0 4px rgba(255,45,85,0.06); }
 .field textarea { height:70px; resize:none; }
@@ -166,7 +166,7 @@ body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg); color
 .mood-btn.sel { border-color:rgba(255,45,85,0.3); background:rgba(255,45,85,0.08); box-shadow:0 0 12px rgba(255,45,85,0.06); }
 
 /* Button */
-.btn { width:100%; padding:16px; border:none; border-radius:14px; font-size:15px; font-weight:700; cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.2s; letter-spacing:0.5px; }
+.btn { width:100%; padding:16px; border:none; border-radius:14px; font-size:15px; font-weight:700; cursor:pointer; font-family:-apple-system,'PingFang SC','Microsoft YaHei',sans-serif; transition:all 0.2s; letter-spacing:0.5px; }
 .btn:active { transform:scale(0.97); }
 .btn-primary { background:linear-gradient(135deg,var(--accent) 0%,#ff6b8a 100%); color:#fff; box-shadow:0 8px 32px var(--accent-glow); }
 
@@ -253,22 +253,22 @@ body { font-family:'Inter',-apple-system,sans-serif; background:var(--bg); color
 
 <script>
 const USERS = [
-  { id:'xi', name:'å', emoji:'ð¥', h:183, sw:220, gw:160, cal_low:2200, cal_high:2800, p_low:220, f_low:90, c_low:80, p_high:220, f_high:70, c_high:300, cycle:'3low1high', tagline:'183cm Â· ç®æ 160æ¤ Â· 3ä½1é«' },
-  { id:'ws', name:'æç', emoji:'ð§', h:175, sw:150, gw:140, cal_low:1800, cal_high:2300, p_low:150, f_low:65, c_low:70, p_high:150, f_high:55, c_high:250, cycle:'3low1high', tagline:'175cm Â· ç®æ 140æ¤ Â· 3ä½1é«' },
-  { id:'yh', name:'çè¾', emoji:'ð', h:168, sw:115, gw:105, cal_low:1500, cal_high:1900, p_low:100, f_low:50, c_low:60, p_high:100, f_high:45, c_high:200, cycle:'3low1high', tagline:'168cm Â· ç®æ 105æ¤ Â· 3ä½1é«' }
+  { id:'xi', name:'囍', emoji:'🔥', h:183, sw:220, gw:160, cal_low:2200, cal_high:2800, p_low:220, f_low:90, c_low:80, p_high:220, f_high:70, c_high:300, cycle:'3low1high', tagline:'183cm · 目标160斤 · 3低1高' },
+  { id:'ws', name:'文生', emoji:'🎧', h:175, sw:150, gw:140, cal_low:1800, cal_high:2300, p_low:150, f_low:65, c_low:70, p_high:150, f_high:55, c_high:250, cycle:'3low1high', tagline:'175cm · 目标140斤 · 3低1高' },
+  { id:'yh', name:'玉辉', emoji:'💃', h:168, sw:115, gw:105, cal_low:1500, cal_high:1900, p_low:100, f_low:50, c_low:60, p_high:100, f_high:45, c_high:200, cycle:'3low1high', tagline:'168cm · 目标105斤 · 3低1高' }
 ];
 
 const TRAIN_OPTS = [
-  {v:'ç¬å¡45åé',icon:'â°ï¸'},{v:'ç¬å¡30åé',icon:'ðï¸'},{v:'ææ°§è·æ­¥',icon:'ð'},{v:'åéè®­ç»',icon:'ðª'},
-  {v:'HIIT',icon:'â¡'},{v:'æ¸¸æ³³',icon:'ð'},{v:'çä¼½',icon:'ð§§'},{v:'ä¼æ¯æ¥',icon:'ð´'}
+  {v:'爬坡45分钟',icon:'⛰️'},{v:'爬坡30分钟',icon:'🏔️'},{v:'有氧跑步',icon:'🏃'},{v:'力量训练',icon:'💪'},
+  {v:'HIIT',icon:'⚡'},{v:'游泳',icon:'🏊'},{v:'瑜伽',icon:'🧘'},{v:'休息日',icon:'😴'}
 ];
 const FOOD_TAGS = [
-  {v:'é¸¡è¸è',c:'sel'},{v:'çè',c:'sel'},{v:'é±¼è¾',c:'sel-blue'},{v:'é¸¡è',c:'sel-orange'},
-  {v:'ç±³é¥­',c:'sel-cyan'},{v:'çº¢è¯',c:'sel-orange'},{v:'èèæ²æ',c:'sel-green'},{v:'è¥¿å°è±',c:'sel-green'},
-  {v:'åæ',c:'sel-purple'},{v:'çæ²¹æ',c:'sel-green'},{v:'èç½ç²',c:'sel-blue'},{v:'é¢æ¡',c:'sel-cyan'},
-  {v:'æ°´æ',c:'sel-green'},{v:'å¨éº¦é¢å',c:'sel-orange'},{v:'é¸å¥¶',c:'sel-purple'},{v:'å°é¾è¾ð¦',c:'sel'}
+  {v:'鸡胸肉',c:'sel'},{v:'牛肉',c:'sel'},{v:'鱼虾',c:'sel-blue'},{v:'鸡蛋',c:'sel-orange'},
+  {v:'米饭',c:'sel-cyan'},{v:'红薯',c:'sel-orange'},{v:'蔬菜沙拉',c:'sel-green'},{v:'西兰花',c:'sel-green'},
+  {v:'坚果',c:'sel-purple'},{v:'牛油果',c:'sel-green'},{v:'蛋白粉',c:'sel-blue'},{v:'面条',c:'sel-cyan'},
+  {v:'水果',c:'sel-green'},{v:'全麦面包',c:'sel-orange'},{v:'酸奶',c:'sel-purple'},{v:'小龙虾🦞',c:'sel'}
 ];
-const MOODS = ['ð«','ð','ð','ð','ð¥'];
+const MOODS = ['😫','😐','😊','😎','🔥'];
 
 const K = (uid) => 'cc_' + uid;
 let S = { tab:'home', uid:'xi', tc:null };
@@ -279,8 +279,8 @@ function saveUser(uid){ localStorage.setItem(K(uid),JSON.stringify({r:D[uid].rec
 function U(){ return USERS.find(u=>u.id===S.uid); }
 function R(){ return D[S.uid].records; }
 const td=()=>new Date().toISOString().slice(0,10);
-const fm=(d)=>{const[,m,day]=d.split('-');return`${+m}æ${+day}æ¥`};
-const wd=(d)=>['æ¥','ä¸','äº','ä¸','å','äº','å­'][new Date(d).getDay()];
+const fm=(d)=>{const[,m,day]=d.split('-');return`${+m}月${+day}日`};
+const wd=(d)=>['日','一','二','三','四','五','六'][new Date(d).getDay()];
 const gr=(d)=>R().find(r=>r.d===d);
 
 function ci(){
@@ -305,13 +305,13 @@ function ringHTML(cur){
         <stop offset="100%" stop-color="${pct>50?'var(--cyan)':'#ff6b8a'}"/>
       </linearGradient></defs>
     </svg>
-    <div class="ring-info"><div class="ring-val">${cur}</div><div class="ring-unit">æ¤</div>
-      <div class="ring-pct">${pct}% å®æ</div></div></div></div>`;
+    <div class="ring-info"><div class="ring-val">${cur}</div><div class="ring-unit">斤</div>
+      <div class="ring-pct">${pct}% 完成</div></div></div></div>`;
 }
 
 function chartHTML(){
   const sorted=R().filter(r=>r.w).sort((a,b)=>a.d.localeCompare(b.d)).slice(-14);
-  if(sorted.length<2)return`<div class="empty-state"><div class="em-icon">ð</div><div class="em-text">è®°å½ä¸¤å¤©ä»¥ä¸ä½é<br>å³å¯æ¥çè¶å¿å¾</div></div>`;
+  if(sorted.length<2)return`<div class="empty-state"><div class="em-icon">📊</div><div class="em-text">记录两天以上体重<br>即可查看趋势图</div></div>`;
   const ws=sorted.map(r=>r.w),mn=Math.min(...ws)-2,mx=Math.max(...ws)+2,rg=mx-mn||1;
   const W=100,H=100;
   let pts=sorted.map((r,i)=>`${(i/(sorted.length-1))*W},${H-((r.w-mn)/rg)*H}`).join(' ');
@@ -324,8 +324,8 @@ function chartHTML(){
     <polygon points="0,${H} ${pts} ${W},${H}" fill="url(#ag)"/>
     <polyline points="${pts}" fill="none" stroke="url(#lg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     ${dots}
-    <text x="0" y="${H+16}" font-size="7" fill="var(--text3)" font-family="Inter">${fm(sorted[0].d)}</text>
-    <text x="${W}" y="${H+16}" font-size="7" fill="var(--text3)" font-family="Inter" text-anchor="end">${fm(sorted[sorted.length-1].d)}</text>
+    <text x="0" y="${H+16}" font-size="7" fill="var(--text3)" font-family="-apple-system,PingFang SC,Microsoft YaHei,sans-serif">${fm(sorted[0].d)}</text>
+    <text x="${W}" y="${H+16}" font-size="7" fill="var(--text3)" font-family="-apple-system,PingFang SC,Microsoft YaHei,sans-serif" text-anchor="end">${fm(sorted[sorted.length-1].d)}</text>
   </svg>`;
 }
 
@@ -348,7 +348,7 @@ function homeHTML(){
   // Water
   let waterCnt=rec?.water||0;
   let waterDots='';
-  for(let i=0;i<8;i++) waterDots+=`<div class="water-dot ${i<waterCnt?'filled':''}" onclick="setWater(${i+1})">${i<waterCnt?'ð§':''}</div>`;
+  for(let i=0;i<8;i++) waterDots+=`<div class="water-dot ${i<waterCnt?'filled':''}" onclick="setWater(${i+1})">${i<waterCnt?'💧':''}</div>`;
 
   // Mood
   let moodBtns=MOODS.map((m,i)=>`<div class="mood-btn ${rec?.mood===i?'sel':''}" onclick="setMood(${i})">${m}</div>`).join('');
@@ -356,17 +356,17 @@ function homeHTML(){
   // History
   let hist='';
   if(!sorted.length){
-    hist=`<div class="empty-state"><div class="em-icon">ðï¸</div><div class="em-text">è¿æ²¡æè®°å½<br>ä»ä»å¤©å¼å§${u.name}çç¢³å¾ªç¯ä¹æ</div></div>`;
+    hist=`<div class="empty-state"><div class="em-icon">🏋️</div><div class="em-text">还没有记录<br>从今天开始${u.name}的碳循环之旅</div></div>`;
   } else {
     sorted.slice(0,8).forEach((r,i)=>{
       const prev=sorted[i+1]; let df='';
-      if(prev){const d=r.w-prev.w; if(d<0)df=`<span class="h-down">â${Math.abs(d).toFixed(1)}</span>`; else if(d>0)df=`<span class="h-up">â${d.toFixed(1)}</span>`; else df=`<span class="h-same">â æå¹³</span>`;}
+      if(prev){const d=r.w-prev.w; if(d<0)df=`<span class="h-down">↓${Math.abs(d).toFixed(1)}</span>`; else if(d>0)df=`<span class="h-up">↑${d.toFixed(1)}</span>`; else df=`<span class="h-same">→ 持平</span>`;}
       const extras=[];
       if(r.t)extras.push(r.t);
-      if(r.water)extras.push('ð§Ã'+r.water);
+      if(r.water)extras.push('💧×'+r.water);
       if(r.mood!==undefined)extras.push(MOODS[r.mood]);
-      hist+=`<div class="h-item"><div class="h-l"><div class="h-date">${fm(r.d)} å¨${wd(r.d)}</div>
-        <div class="h-meta"><span class="h-dot ${r.ct==='high'?'h-dot-high':'h-dot-low'}"></span>${r.ct==='high'?'é«ç¢³':'ä½ç¢³'}${extras.length?' Â· '+extras.join(' '):''}</div></div>
+      hist+=`<div class="h-item"><div class="h-l"><div class="h-date">${fm(r.d)} 周${wd(r.d)}</div>
+        <div class="h-meta"><span class="h-dot ${r.ct==='high'?'h-dot-high':'h-dot-low'}"></span>${r.ct==='high'?'高碳':'低碳'}${extras.length?' · '+extras.join(' '):''}</div></div>
         <div class="h-r"><div class="h-w">${r.w}</div><div class="h-diff">${df}</div></div>
         <button class="h-del" onclick="del('${r.d}')">&times;</button></div>`;
     });
@@ -376,80 +376,80 @@ function homeHTML(){
     <div class="user-bar an d0">${ubar}</div>
     <div class="header an d0">
       <div class="brand"><div class="brand-dot"></div><div class="brand-name">CarbCycle Pro</div></div>
-      <h1><span>${u.name}çç¢³å¾ªç¯</span></h1>
+      <h1><span>${u.name}的碳循环</span></h1>
       <div class="tagline">${u.tagline}</div>
     </div>
     ${ringHTML(cw)}
     <div class="stats an d2">
-      <div class="s-card"><div class="s-icon">ð¥</div><div class="s-val" style="color:var(--accent)">${lost>0?lost:0}</div><div class="s-lbl">å·²åé</div></div>
-      <div class="s-card"><div class="s-icon">â¡</div><div class="s-val" style="color:var(--orange)">${sk()}</div><div class="s-lbl">è¿ç»­æå¡</div></div>
-      <div class="s-card"><div class="s-icon">ð¯</div><div class="s-val" style="color:var(--cyan)">${Math.max(0,cw-u.gw)}</div><div class="s-lbl">è·ç®æ </div></div>
+      <div class="s-card"><div class="s-icon">🔥</div><div class="s-val" style="color:var(--accent)">${lost>0?lost:0}</div><div class="s-lbl">已减重</div></div>
+      <div class="s-card"><div class="s-icon">⚡</div><div class="s-val" style="color:var(--orange)">${sk()}</div><div class="s-lbl">连续打卡</div></div>
+      <div class="s-card"><div class="s-icon">🎯</div><div class="s-val" style="color:var(--cyan)">${Math.max(0,cw-u.gw)}</div><div class="s-lbl">距目标</div></div>
     </div>
     <div class="phase ${cType==='low'?'phase-low':'phase-high'} an d3">
-      <div class="phase-left"><div class="phase-icon">${cType==='low'?'ð¥¬':'ð'}</div>
-        <div><div class="phase-title">${cType==='low'?'ä½ç¢³æ¥':'é«ç¢³æ¥'}</div><div class="phase-sub">${fm(td())} å¨${wd(td())}</div></div></div>
+      <div class="phase-left"><div class="phase-icon">${cType==='low'?'🥬':'🍚'}</div>
+        <div><div class="phase-title">${cType==='low'?'低碳日':'高碳日'}</div><div class="phase-sub">${fm(td())} 周${wd(td())}</div></div></div>
       <div style="text-align:right"><div class="phase-cal">${tgt.cal}</div><div class="phase-kcal">kcal</div></div>
     </div>
     <div class="macros an d3">
-      <div class="m-card m-p"><div class="m-val">${tgt.p}g</div><div class="m-lbl">èç½è´¨</div><div class="m-bar"><div class="m-bar-fill" style="width:100%"></div></div></div>
-      <div class="m-card m-f"><div class="m-val">${tgt.f}g</div><div class="m-lbl">èèª</div><div class="m-bar"><div class="m-bar-fill" style="width:100%"></div></div></div>
-      <div class="m-card m-c"><div class="m-val">${tgt.c}g</div><div class="m-lbl">ç¢³æ°´</div><div class="m-bar"><div class="m-bar-fill" style="width:${cType==='low'?'27':'100'}%"></div></div></div>
+      <div class="m-card m-p"><div class="m-val">${tgt.p}g</div><div class="m-lbl">蛋白质</div><div class="m-bar"><div class="m-bar-fill" style="width:100%"></div></div></div>
+      <div class="m-card m-f"><div class="m-val">${tgt.f}g</div><div class="m-lbl">脂肪</div><div class="m-bar"><div class="m-bar-fill" style="width:100%"></div></div></div>
+      <div class="m-card m-c"><div class="m-val">${tgt.c}g</div><div class="m-lbl">碳水</div><div class="m-bar"><div class="m-bar-fill" style="width:${cType==='low'?'27':'100'}%"></div></div></div>
     </div>
-    <div class="chart-card an d4"><div class="chart-head"><h3>ä½éè¶å¿</h3></div><div class="chart-area">${chartHTML()}</div></div>
+    <div class="chart-card an d4"><div class="chart-head"><h3>体重趋势</h3></div><div class="chart-area">${chartHTML()}</div></div>
     <div class="form-card an d5">
-      <h3>âï¸ ä»æ¥æå¡</h3>
-      <div class="field"><label>ä½é (æ¤)</label><input type="number" id="iw" placeholder="ä¸ç§¤ç§°ä¸ä¸" value="${rec?.w||''}"></div>
+      <h3>✏️ 今日打卡</h3>
+      <div class="field"><label>体重 (斤)</label><input type="number" id="iw" placeholder="上秤称一下" value="${rec?.w||''}"></div>
       <div class="tog-wrap">
-        <div class="tog ${cType==='low'?'sel-low':''}" onclick="tc('low')">ð¥¬ ä½ç¢³</div>
-        <div class="tog ${cType==='high'?'sel-high':''}" onclick="tc('high')">ð é«ç¢³</div>
+        <div class="tog ${cType==='low'?'sel-low':''}" onclick="tc('low')">🥬 低碳</div>
+        <div class="tog ${cType==='high'?'sel-high':''}" onclick="tc('high')">🍚 高碳</div>
       </div>
-      <div class="chip-wrap"><label>ðï¸ ä»æ¥è®­ç»</label>${trainChips}</div>
-      <div class="chip-wrap"><label>ð½ï¸ ä»æ¥é¥®é£</label>${foodChips}</div>
-      <div class="water-section"><label>ð§ åæ°´ (æ¯)</label><div class="water-row"><div class="water-dots">${waterDots}</div><div class="water-count">${waterCnt}/8</div></div></div>
-      <div class="chip-wrap"><label>ð ç¶æ</label></div>
+      <div class="chip-wrap"><label>🏋️ 今日训练</label>${trainChips}</div>
+      <div class="chip-wrap"><label>🍽️ 今日饮食</label>${foodChips}</div>
+      <div class="water-section"><label>💧 喝水 (杯)</label><div class="water-row"><div class="water-dots">${waterDots}</div><div class="water-count">${waterCnt}/8</div></div></div>
+      <div class="chip-wrap"><label>😊 状态</label></div>
       <div class="mood-row">${moodBtns}</div>
-      <div class="field"><label>å¤æ³¨</label><textarea id="in" placeholder="ä»å¤©æè§æä¹æ ·...">${rec?.n||''}</textarea></div>
-      <button class="btn btn-primary" onclick="sv()">ä¿å­è®°å½</button>
+      <div class="field"><label>备注</label><textarea id="in" placeholder="今天感觉怎么样...">${rec?.n||''}</textarea></div>
+      <button class="btn btn-primary" onclick="sv()">保存记录</button>
     </div>
-    <div class="an d6"><div class="hist-head"><h3>åå²è®°å½</h3></div>${hist}</div>`;
+    <div class="an d6"><div class="hist-head"><h3>历史记录</h3></div>${hist}</div>`;
 }
 
 function planHTML(){
   const u=U(), di=ci();
   let cyc='';
-  const labels=['ä»å¤©','æå¤©','åå¤©','+3','+4','+5','+6','+7'];
-  for(let i=0;i<8;i++){const t=ct(di+i);cyc+=`<div class="cy-d ${t==='low'?'cy-low':'cy-high'} ${i===0?'cy-today':''}"><span class="cy-label">${labels[i]}</span>${t==='low'?'ä½':'é«'}</div>`;}
+  const labels=['今天','明天','后天','+3','+4','+5','+6','+7'];
+  for(let i=0;i<8;i++){const t=ct(di+i);cyc+=`<div class="cy-d ${t==='low'?'cy-low':'cy-high'} ${i===0?'cy-today':''}"><span class="cy-label">${labels[i]}</span>${t==='low'?'低':'高'}</div>`;}
   let ubar=USERS.map(x=>`<div class="u-chip ${x.id===S.uid?'on':'off'}" onclick="sw('${x.id}')">`+
     `<div class="u-avatar">${x.emoji}</div>${x.name}</div>`).join('');
   return`
     <div class="user-bar an d0">${ubar}</div>
     <div class="header an d0"><div class="brand"><div class="brand-dot"></div><div class="brand-name">CarbCycle Pro</div></div>
-      <h1><span>${u.name}çè®¡å</span></h1><div class="tagline">${u.cycle==='3low1high'?'3å¤©ä½ç¢³ + 1å¤©é«ç¢³å¾ªç¯':u.cycle}</div></div>
-    <div class="plan-glass an d1"><h3>ð å¨æé¢è§</h3><div class="cycle-preview">${cyc}</div></div>
+      <h1><span>${u.name}的计划</span></h1><div class="tagline">${u.cycle==='3low1high'?'3天低碳 + 1天高碳循环':u.cycle}</div></div>
+    <div class="plan-glass an d1"><h3>🔄 周期预览</h3><div class="cycle-preview">${cyc}</div></div>
     <div class="plan-glass an d2">
-      <h3><span class="p-dot" style="background:var(--green);box-shadow:0 0 8px rgba(48,209,88,0.4)"></span>ä½ç¢³æ¥ Â· ${u.cal_low} kcal</h3>
-      <div class="p-row"><span>èç½è´¨</span><span class="p-v" style="color:var(--accent)">${u.p_low}g</span></div>
-      <div class="p-row"><span>èèª</span><span class="p-v" style="color:var(--orange)">${u.f_low}g</span></div>
-      <div class="p-row"><span>ç¢³æ°´</span><span class="p-v" style="color:var(--cyan)">${u.c_low}g</span></div>
-      <div class="food-grid"><div class="food-chip">ð é¸¡è¸è</div><div class="food-chip">ð¥© çè</div><div class="food-chip">ð é±¼è¾</div><div class="food-chip">ð¥ é¸¡è</div>
-        <div class="food-chip">ð¥¦ è¥¿å°è±</div><div class="food-chip">ð¥¬ è èçè</div><div class="food-chip">ð¥ åæå°é</div><div class="food-chip">ð¥ çæ±¹æå°é</div></div>
-      <div class="food-warn">â ä¸åç±³é¥­ãé¢æ¡ãçº¢è¯ãé¢å</div>
+      <h3><span class="p-dot" style="background:var(--green);box-shadow:0 0 8px rgba(48,209,88,0.4)"></span>低碳日 · ${u.cal_low} kcal</h3>
+      <div class="p-row"><span>蛋白质</span><span class="p-v" style="color:var(--accent)">${u.p_low}g</span></div>
+      <div class="p-row"><span>脂肪</span><span class="p-v" style="color:var(--orange)">${u.f_low}g</span></div>
+      <div class="p-row"><span>碳水</span><span class="p-v" style="color:var(--cyan)">${u.c_low}g</span></div>
+      <div class="food-grid"><div class="food-chip">🍗 鸡胸肉</div><div class="food-chip">🥩 牛肉</div><div class="food-chip">🐟 鱼虾</div><div class="food-chip">🥚 鸡蛋</div>
+        <div class="food-chip">🥦 西兰花</div><div class="food-chip">🥬 菠菜生菜</div><div class="food-chip">🥜 坚果少量</div><div class="food-chip">🥑 牛油果少量</div></div>
+      <div class="food-warn">❌ 不吃米饭、面条、红薯、面包</div>
     </div>
     <div class="plan-glass an d3">
-      <h3><span class="p-dot" style="background:var(--orange);box-shadow:0 0 8px rgba(255,159,10,0.4)"></span>é«ç¢³æ¥ Â· ${u.cal_high} kcal</h3>
-      <div class="p-row"><span>èç½è´¨</span><span class="p-v" style="color:var(--accent)">${u.p_high}g</span></div>
-      <div class="p-row"><span>èèª</span><span class="p-v" style="color:var(--orange)">${u.f_high}g</span></div>
-      <div class="p-row"><span>ç¢³æ°´</span><span class="p-v" style="color:var(--cyan)">${u.c_high}g</span></div>
-      <div class="food-grid"><div class="food-chip">ð ç±³é¥­</div><div class="food-chip">ð  çº¢è¯</div><div class="food-chip">ð é¢æ¡</div><div class="food-chip">ð å¨éº¦é¢å</div>
-        <div class="food-chip">ð æ­£å¸¸åè</div><div class="food-chip">ð¥ è¬èæ²æ</div><div class="food-chip">ð æ°´æ</div><div class="food-chip">ð¥¤ èç½ç²</div></div>
-      <div class="food-warn">â é¿åé«æ²¹é«ç³åå¾é£å</div>
+      <h3><span class="p-dot" style="background:var(--orange);box-shadow:0 0 8px rgba(255,159,10,0.4)"></span>高碳日 · ${u.cal_high} kcal</h3>
+      <div class="p-row"><span>蛋白质</span><span class="p-v" style="color:var(--accent)">${u.p_high}g</span></div>
+      <div class="p-row"><span>脂肪</span><span class="p-v" style="color:var(--orange)">${u.f_high}g</span></div>
+      <div class="p-row"><span>碳水</span><span class="p-v" style="color:var(--cyan)">${u.c_high}g</span></div>
+      <div class="food-grid"><div class="food-chip">🍚 米饭</div><div class="food-chip">🍠 红薯</div><div class="food-chip">🍜 面条</div><div class="food-chip">🍞 全麦面包</div>
+        <div class="food-chip">🍗 正常吃肉</div><div class="food-chip">🥗 蔬菜沙拉</div><div class="food-chip">🍎 水果</div><div class="food-chip">🥤 蛋白粉</div></div>
+      <div class="food-warn">❌ 避免高油高糖垃圾食品</div>
     </div>
     <div class="plan-glass an d4">
-      <h3>ð ${u.name}çæ°æ®</h3>
-      <div class="p-row"><span>èº«é«</span><span class="p-v">${u.h} cm</span></div>
-      <div class="p-row"><span>èµ·å§ä½é</span><span class="p-v">${u.sw} æ¤</span></div>
-      <div class="p-row"><span>ç®æ ä½é</span><span class="p-v" style="color:var(--green)">${u.gw} æ¤</span></div>
-      <div class="p-row"><span>éåé</span><span class="p-v" style="color:var(--accent)">${u.sw-u.gw} æ¤</span></div>
+      <h3>📊 ${u.name}的数据</h3>
+      <div class="p-row"><span>身高</span><span class="p-v">${u.h} cm</span></div>
+      <div class="p-row"><span>起始体重</span><span class="p-v">${u.sw} 斤</span></div>
+      <div class="p-row"><span>目标体重</span><span class="p-v" style="color:var(--green)">${u.gw} 斤</span></div>
+      <div class="p-row"><span>需减重</span><span class="p-v" style="color:var(--accent)">${u.sw-u.gw} 斤</span></div>
     </div>`;
 }
 
@@ -462,26 +462,26 @@ function settingsHTML(){
   return`
     <div class="user-bar an d0">${ubar}</div>
     <div class="header an d0"><div class="brand"><div class="brand-dot"></div><div class="brand-name">CarbCycle Pro</div></div>
-      <h1><span>è®¾ç½®</span></h1><div class="tagline">ç®¡ç${u.name}çæ°æ®</div></div>
-    <div class="set-card an d1"><h3>ð ç»è®¡</h3>
-      <div class="set-row"><span>æ»æå¡å¤©æ°</span><span class="set-val">${totalDays} å¤©</span></div>
-      <div class="set-row"><span>æä½ä½é</span><span class="set-val" style="color:var(--green)">${minW} æ¤</span></div>
-      <div class="set-row"><span>æé«ä½é</span><span class="set-val">${maxW} æ¤</span></div>
-      <div class="set-row"><span>è¿ç»­æå¡</span><span class="set-val" style="color:var(--orange)">${sk()} å¤©</span></div>
+      <h1><span>设置</span></h1><div class="tagline">管理${u.name}的数据</div></div>
+    <div class="set-card an d1"><h3>📊 统计</h3>
+      <div class="set-row"><span>总打卡天数</span><span class="set-val">${totalDays} 天</span></div>
+      <div class="set-row"><span>最低体重</span><span class="set-val" style="color:var(--green)">${minW} 斤</span></div>
+      <div class="set-row"><span>最高体重</span><span class="set-val">${maxW} 斤</span></div>
+      <div class="set-row"><span>连续打卡</span><span class="set-val" style="color:var(--orange)">${sk()} 天</span></div>
     </div>
-    <div class="set-card an d2"><h3>ð¤ ${u.name}çèµæ</h3>
-      <div class="set-row"><span>èº«é«</span><span class="set-val">${u.h} cm</span></div>
-      <div class="set-row"><span>èµ·å§ä½é</span><span class="set-val">${u.sw} æ¤</span></div>
-      <div class="set-row"><span>ç®æ ä½é</span><span class="set-val">${u.gw} æ¤</span></div>
-      <div class="set-row"><span>ä½ç¢³æ¥ç­é</span><span class="set-val">${u.cal_low} kcal</span></div>
-      <div class="set-row"><span>é«ç¢³æ¥ç­é</span><span class="set-val">${u.cal_high} kcal</span></div>
+    <div class="set-card an d2"><h3>👤 ${u.name}的资料</h3>
+      <div class="set-row"><span>身高</span><span class="set-val">${u.h} cm</span></div>
+      <div class="set-row"><span>起始体重</span><span class="set-val">${u.sw} 斤</span></div>
+      <div class="set-row"><span>目标体重</span><span class="set-val">${u.gw} 斤</span></div>
+      <div class="set-row"><span>低碳日热量</span><span class="set-val">${u.cal_low} kcal</span></div>
+      <div class="set-row"><span>高碳日热量</span><span class="set-val">${u.cal_high} kcal</span></div>
     </div>
-    <div class="set-card an d3"><h3>â ï¸ æ°æ®ç®¡ç</h3>
-      <div class="set-row"><span>æ¸ç©º${u.name}çè®°å½</span><button class="set-btn danger-btn" onclick="clearData()">æ¸ç©ºæ°æ®</button></div>
+    <div class="set-card an d3"><h3>⚠️ 数据管理</h3>
+      <div class="set-row"><span>清空${u.name}的记录</span><button class="set-btn danger-btn" onclick="clearData()">清空数据</button></div>
     </div>
     <div class="set-card an d4" style="text-align:center;color:var(--text3);font-size:12px;padding:20px">
       <div style="margin-bottom:6px">CarbCycle Pro v2.0</div>
-      <div>Made with â¤ï¸ by å°é» for å</div>
+      <div>Made with ❤️ by 小黄 for 囍</div>
     </div>`;
 }
 
@@ -530,19 +530,19 @@ function sv(){
   const rec={d:td(), w:w?parseFloat(w):null, ct:S.tc||existing.ct||tt(), t:existing.t||'', n, foods:existing.foods||[], water:existing.water||0, mood:existing.mood};
   const idx=R().findIndex(r=>r.d===td());
   if(idx>=0)R()[idx]=Object.assign(R()[idx],rec); else R().push(rec);
-  saveUser(S.uid); S.tc=null; render(); toast('â æå¡æå');
+  saveUser(S.uid); S.tc=null; render(); toast('✅ 打卡成功');
 }
-function del(d){ D[S.uid].records=R().filter(r=>r.d!==d); saveUser(S.uid); render(); toast('å·²å é¤'); }
-function clearData(){ if(confirm('ç¡®å®æ¸ç©º'+U().name+'çæææ°æ®ï¼')){ D[S.uid].records=[]; saveUser(S.uid); render(); toast('æ°æ®å·²æ¸ç©º'); } }
+function del(d){ D[S.uid].records=R().filter(r=>r.d!==d); saveUser(S.uid); render(); toast('已删除'); }
+function clearData(){ if(confirm('确定清空'+U().name+'的所有数据？')){ D[S.uid].records=[]; saveUser(S.uid); render(); toast('数据已清空'); } }
 function toast(m){ const t=document.getElementById('toast'); t.textContent=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1800); }
 
 function render(){
   const tabs={home:homeHTML,plan:planHTML,settings:settingsHTML};
   document.getElementById('app').innerHTML=(tabs[S.tab]||homeHTML)();
   document.getElementById('nav').innerHTML=`
-    <div class="n-item ${S.tab==='home'?'on':''}" onclick="S.tab='home';render()"><div class="n-ico">â­</div><div class="n-lbl">æå¡</div></div>
-    <div class="n-item ${S.tab==='plan'?'on':''}" onclick="S.tab='plan';render()"><div class="n-ico">ð</div><div class="n-lbl">è®¡å</div></div>
-    <div class="n-item ${S.tab==='settings'?'on':''}" onclick="S.tab='settings';render()"><div class="n-ico">âï¸</div><div class="n-lbl">è®¾ç½®</div></div>`;
+    <div class="n-item ${S.tab==='home'?'on':''}" onclick="S.tab='home';render()"><div class="n-ico">⭐</div><div class="n-lbl">打卡</div></div>
+    <div class="n-item ${S.tab==='plan'?'on':''}" onclick="S.tab='plan';render()"><div class="n-ico">📋</div><div class="n-lbl">计划</div></div>
+    <div class="n-item ${S.tab==='settings'?'on':''}" onclick="S.tab='settings';render()"><div class="n-ico">⚙️</div><div class="n-lbl">设置</div></div>`;
   window.scrollTo({top:0,behavior:'instant'});
 }
 
